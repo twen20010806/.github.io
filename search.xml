@@ -4,6 +4,85 @@
   
     
     <entry>
+      <title>javaScript DOM树基础</title>
+      <link href="2021/04/22/js-dom/"/>
+      <url>2021/04/22/js-dom/</url>
+      
+        <content type="html"><![CDATA[<h4 id="DOM"><a href="#DOM" class="headerlink" title="DOM"></a>DOM</h4><ul><li><p>概念: Document Object Model 文档对象模型</p><ul><li>将标记语言文档的各个组成部分,封装为对象.可以使用这些对象,都标记语言文档进行CRUD的动态操作</li></ul></li><li><p>W3C DOM标准被分为3个不同的部分:</p><ul><li><p>核心 DOM - 针对任何结构化文档的标准模型</p><ul><li><p>Document : 文档对象</p></li><li><p>Element: 元素对象</p></li><li><p>Attribute: 属性对象</p></li><li><p>Text: 文本对象</p></li><li><p>Comment: 注释对象</p></li><li><p>Node: 节点对象,其它5个的父对象</p></li></ul></li><li><p>XML DOM - 针对XML文档的标准模型</p></li><li><p>HTML DOM - 针对HTML文档的标准类型                 </p></li></ul></li><li><p>核心DOM模型:                                                 </p><ul><li>Document:文档对象<ol><li>创建(获取):在html dom模型中可以使用windox对象获取<ol><li>window.document</li><li>document</li></ol></li><li>方法<ol><li>获取Element对象:<ol><li>getElementById():根据id属性值获取元素对象。id属性值一般唯一</li><li>getElementsByTagName():根据元素名称获得元素对象们,返回值时元素数组</li><li>getElementsByClassName():根据Class属性值获取元素对象们。返回值是一个数组</li><li>getElementsByName():根据name属性值获取元素对象们</li></ol></li><li>创建其他DOM对象:<ol><li>createAttribute(name)</li><li>createComment()</li><li>createElement()</li><li>createaTextNode()</li></ol></li></ol></li><li>属性</li></ol></li><li>Element:元素对象<ul><li>创建/获取：通过document来获取和创建</li><li>方法:<ol><li>removeAttribute():删除属性</li><li>setAttribute():设置属性</li></ol></li></ul></li><li>Node:节点对象,其他5个的父对象<ul><li>特点:所有dom对象都可以被认为是一个节点</li><li>方法:<ul><li>CRUD dom树:<ul><li>appendChild():向节点的子节点列表的结尾添加新的子节点</li><li>removeChild():删除(并返回)当前节点的指定子节点</li><li>replaceChild():用新节点替换一个子节点</li></ul></li></ul></li><li>属性<ul><li>parentNode:返回节点的父节点</li></ul></li></ul></li></ul></li><li><p>HTML DOM                                    </p><ol><li><p>标签体的设置和获取:innerHTML</p><pre><code>  &lt;div id=&quot;div1&quot;&gt;     div   &lt;/div&gt; &lt;script&gt;   var div = document.getElementById(&quot;div1&quot;);   var innerHTML = div.innerHTML;   div.innerHTML += &quot;&lt;input type=&#39;text&#39;&#39;&gt;&quot;;   //div标签追加一个文本输入框   &lt;/script&gt;</code></pre></li><li><p>使用html元素对象的属性</p></li><li><p>控制元素样式        </p><pre><code> &lt;div id=&quot;div1&quot;&gt;   div &lt;/div&gt;   &lt;script&gt;   var div1 = document.getElementById(&quot;div1&quot;);   div1.onclick = function ()&#123;     //修改样式方式1,使用元素的style属性设置     div1.style.border = &quot;1px solid red&quot;     div1.style.fontSize = &quot;20px&quot;;     //修改样式方式2     提前定义好class选择器的样式,通过元素的className属性来设置class属性     &#125;     div2.onclick = function ()&#123;     div2.className = &quot;d2&quot;;     &#125;                  &lt;/script&gt;    </code></pre></li></ol></li></ul><h4 id="事件监听机制"><a href="#事件监听机制" class="headerlink" title="事件监听机制:"></a>事件监听机制:</h4><ul><li>概念:某些组件被执行了某些操作后,出发某些代码的执行        <ul><li>事件:某些操作,如:单击,双击,键盘按下,鼠标移动                                    <ul><li>事件源：组件 如:按钮 文本输入框…</li><li>监听器: 代码</li><li>注册监听: 将事件,事件源,监听器结合在一起。当事件源上发生了某个事件，则出发执行某个监听器代码</li></ul></li><li>常见的事件<ol><li>点击事件:<ol><li>onclick 单机事件</li><li>ondbclick 双击事件</li></ol></li><li>焦点事件<ol><li>onblur:失去焦点<ul><li>一般用于表单校验(失去焦点时判断内容是否符合规则)    </li></ul></li><li>onfocus:元素获得焦点</li></ol></li><li>加载事件<ol><li>onload：一张页面或一幅图像完成加载<ul><li>window.onload<pre><code>     window.onload = function ()&#123;        document.getElementById(&quot;username&quot;).onblur = function ()&#123;         alert(&quot;失去焦点了&quot;);        &#125;      &#125;</code></pre></li></ul></li></ol></li><li>鼠标事件<ol><li>onmousedown 鼠标被按下<ul><li>定义方法时，定义一个形参，接受event对象</li><li>event对象俺的button属性可以后去鼠标按钮被点击了</li><li>左中右 012</li></ul></li><li>onmouseup 鼠标被松开</li><li>onmousemove 鼠标被移动</li><li>onmouseover 鼠标移到某元素</li><li>onmouseout 鼠标从某元素移开</li></ol></li><li>键盘事件    <ol><li>onkeydown 某个键被按下</li><li>onkeyup 某个键被松开</li><li>onkeypress 某个键被按下并松开</li></ol></li><li>选择和改变<ol><li>onchange 域的内容被改变</li><li>onselect 文本被选中</li></ol></li><li>表单事件<ol><li>onsubmit 确认按钮被点击<ul><li>可以阻止表单提交<ul><li>方法 return false:表单被阻止提交</li></ul></li></ul></li><li>onreset 重置按钮被重置 </li></ol></li></ol></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> javaScript </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> javaScript </tag>
+            
+            <tag> DOM </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL中的事务</title>
+      <link href="2021/04/21/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/"/>
+      <url>2021/04/21/MySQL%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<h4 id="TCL-Transaction-Control-Language-事务控制语言"><a href="#TCL-Transaction-Control-Language-事务控制语言" class="headerlink" title="TCL:Transaction Control Language 事务控制语言"></a>TCL:Transaction Control Language 事务控制语言</h4><ul><li><p>简介</p><ul><li>事务:一个或一组sql语句组成一个执行单元,这个执行单元要么全部执行,要么全部不执行.如果单元中某条sql语句一旦执行失败或产生错误,整个单元将会回滚。所有受到影响的数据将返回到事务开始以前的状态</li><li>引入案例: 转账<ul><li>不能一个转出后发生Exception另一个不转入</li></ul></li></ul></li><li><p>事务的acid属性</p><ol><li>原子性(Atomicity):事务不可分割,食物中的操作要么都发生,要么都不发生</li><li>一致性(Consistency):事务必须从数据库从一个状态切换到另一个一致性的状态</li><li>隔离性(Isolation):一个事务的执行不能被其他事务干扰.即一个事务内部的操作及使用的数据对并发的其他事务时隔离的,并发执行的各个事务之间不能互相干扰.</li><li>持久性(Durability):一个事务一旦被提交,它对数据库中数据的改变就是永久性的,接下来的其他操作和数据库故障不应该对其有任何影响</li></ol></li><li><p>使用</p><ul><li>事务的创建<ul><li>隐式事务:事务没有明显的开启和结束的标记<ul><li>INSERT</li><li>UPDATE</li><li>DELETE</li></ul></li><li>显示事务:事务具有明显的开启和结束的标记<ul><li>前体:必须先设置自动提交功能为禁用<pre><code>  步骤1:              SET           autocommit = 0      start          transaction; 可选,只要autocommit = 0 默认开启事务  步骤2:编写事务中的sql语句(SELECT,INSERT,UPDATE,DELETE)  步骤3:结束事务      commit;提交事务      rollback;回滚事务</code></pre></li></ul></li></ul></li></ul></li><li><p>并发    </p><ul><li><p>并发问题</p><ul><li>脏读:对于两个事务T1,T2,T1读取了已经被T2更新但还没有被提交的字段之后,若T2回滚,T1 读取的内容就是临时且无效的。</li><li>不可重复读;对于两个事务T1,T2,T1读取了一个字段,然后T2更新了该字段之后,T1再次读取同一个字段,值就不同了</li><li>幻读:对于两个事务T1,T2,T1从一个表中读取了一个字段,然后T2再该表中插入了一些新的行之后,如果T1再次读取同一个表,就会多出几行</li></ul></li><li><p>事务隔离级别</p><ul><li>READ UNCOMMITTED:脏读、不可重复读、和幻读都不能阻止</li><li>READ COMMITED:能阻止脏读、不能阻止不可重复读、不能阻止幻读</li><li>REPEATABLE READ:能阻止脏读、不可重复读、不能阻止幻读</li><li>SERIALIZABLE:脏读、不可重复读、幻读都能阻止,效率较慢</li></ul></li><li><p>MYSQL 支持4种事务隔离级别.MYSQL默认的事务隔离级别 REPEATABLE READ;</p></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> transaction </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySql Basic</title>
+      <link href="2021/04/21/MySQL%E5%9F%BA%E7%A1%80/"/>
+      <url>2021/04/21/MySQL%E5%9F%BA%E7%A1%80/</url>
+      
+        <content type="html"><![CDATA[<h3 id="MySQL服务端的登陆和退出"><a href="#MySQL服务端的登陆和退出" class="headerlink" title="MySQL服务端的登陆和退出"></a>MySQL服务端的登陆和退出</h3><pre><code>方式一:通过mysql自带的客户端只限于root用户方式二:通过windows自带的客户端登陆:(如果有-h -P)就是另一台主机    mysql -h主机名 -P端口号 -u用户名 -p密码退出:exit</code></pre><h3 id="MYSQL的常见命令"><a href="#MYSQL的常见命令" class="headerlink" title="MYSQL的常见命令"></a>MYSQL的常见命令</h3><pre><code>1.查看当前所有的数据库SHOW databases;2.打开指定的库USE 库名3.查看当前库的所有表SHOW tables4.查看其它库的所有表SHOW tables FROM 库名5.创建表CREATE table 表名(    列名 列类型,    列名 列类型,    。。。    列名 列类型);6.查看表结构desc 表名;7.查看服务器的版本方法一:登陆到mysql服务端SELECT version();方法二:cmdmysql --version OR mysql -V</code></pre><h3 id="MYSQL语言规范"><a href="#MYSQL语言规范" class="headerlink" title="MYSQL语言规范"></a>MYSQL语言规范</h3><pre><code>1.不区分大小写,但建议关键字大写,表明、列名小写2.每条命令用分号结尾3.每条命令根据需要,可以进行缩进或换行4.注释    单行注释:# 注释文字    单行注释:- - 注释文字(空格)    多行注释:/* 注释文字 */</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> MySQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="2021/04/21/hello-world/"/>
       <url>2021/04/21/hello-world/</url>
