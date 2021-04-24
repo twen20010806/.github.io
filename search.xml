@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>MYSQL中的变量</title>
+      <link href="2021/04/24/MYSQL%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F/"/>
+      <url>2021/04/24/MYSQL%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F/</url>
+      
+        <content type="html"><![CDATA[<h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><ul><li>分类<ul><li>系统变量<ul><li>全局变量</li><li>会话变量</li></ul></li><li>自定义变量<ul><li>用户变量</li><li>局部变量</li></ul></li></ul></li></ul><h4 id="系统变量"><a href="#系统变量" class="headerlink" title="系统变量"></a>系统变量</h4><ul><li><p>说明:变量由系统提供,不是用户定义,属于服务器层面</p></li><li><p>语法:</p><ol><li><p>查看所有的系统变量</p><pre><code> SHOW (GLOBAL 全局,SESSION 会话)VARIABLES;</code></pre></li><li><p>查看满足条件的部分系统变量</p><pre><code> SHOW GLOBAL|SESSION VARIABLES LIKE &#39;%char%&#39;;</code></pre></li><li><p>查看指定的某个系统变量的值</p><pre><code> SELECT @@global|session.系统变量名;</code></pre></li><li><p>为某个系统变量赋值<br> 方式1:</p><pre><code>     SET GLOBAL|SESSION 系统变量名 = 值;</code></pre><p> 方式2:</p><pre><code>     SET @@GLOBAL|SESSION.系统变量名 = 值;</code></pre></li></ol></li><li><p>注意</p><ul><li>如果时全局级别,则需要加global</li><li>如果时会话级别,默认或session<h4 id="系统变量-1"><a href="#系统变量-1" class="headerlink" title="系统变量"></a>系统变量</h4></li></ul></li></ul><ol><li>全局变量<pre><code> * 跨连接有效 * 作用域:服务器每次启动将为所有的全局变量赋初始值,针对于所有的会话(连接),但是不能跨重启 * 如果需求每次重启服务器都为自己预想的变量,则需要修改配置文件</code></pre><ol><li>查看所有的全局变量<pre><code> SHOW GLOBAL VARIABLES;</code></pre></li><li>查看部分的全局变量<pre><code> SHOW GLOBAL VARIABLES LIKE &#39;%char%&#39;;</code></pre></li><li>查看指定的全局变量的值<pre><code> SELECT @@global.autocommit; SELECT @@TRANSACTION_ISOLATION;</code></pre></li><li>为某个指定的全局变量赋值<pre><code> SET global autocommit = 0; SET @@global.autocommit = 0;</code></pre></li></ol></li><li>会话变量<pre><code> * 仅仅针对于当前会话(连接)有效 </code></pre><ol><li>查看所有的会话变量<pre><code> SHOW [SESSION] VARIABLES</code></pre></li><li>查看部分的会话变量<pre><code> SHOW [SESSION] VARIABLES LIKE&#39; &#39;</code></pre></li><li>查看指定的全局变量的值<pre><code> SELECT @@SESSION.autocommit; SELECT @@TRANSACTOIN_ISOLATION; </code></pre></li><li>为某个会话变量赋值<ol><li>方式一<pre><code> SET @@TRANSACIONT = &#39;read-uncommitted&#39;;</code></pre></li><li>方式二<pre><code> SET SESSION TRANSACTION_ISOLATION = &#39;read_committed&#39;; </code></pre><h4 id="自定义变量"><a href="#自定义变量" class="headerlink" title="自定义变量"></a>自定义变量</h4></li></ol></li></ol><ul><li>变量由用户自定义的,不是由系统定义的</li><li>使用步骤:<pre><code>      声明      赋值      使用(查看、比较、运算等)</code></pre></li></ul></li><li>用户变量<ul><li>作用域<ul><li>针对于当前会话(连接)连接有效,等同关于会话变量的作用域</li><li>应用在任何地方,也就是begin end里面或begin end外面    </li></ul></li><li>使用:用户变量使用时需要加@<pre><code>  1. 声明并初始化:赋值的操作符: = 或 :=      SET @用户变量名 = 值;      SET @用户变量名:= 值;      SELECT @用户变量名:=值;  2. 赋值(更新用户变量的值)      方式一:通过SET 或 SELECT          SET @用户变量名=值          SET @用户变量名:=值          SELECT @用户变量名:=值      方式二:通过SELECT INTO          SELECT 字段 INTO @变量名          FROM 表;    </code></pre></li></ul></li><li>局部变量<ul><li>作用域<ul><li>仅仅在定义它的begin end 中有效</li><li>begin end中的第一句话</li></ul></li><li>使用</li></ul></li></ol><pre><code>        1. 声明            DECLARE 变量名 类型;            DECLARE 变量名 类型 DEFAULT 值;        2. 赋值            方式一:通过SET 或 SELECT                SET 局部变量名=值                SET 局部变量名:=值                SELECT @局部变量名:=值            方式二:通过SELECT INTO                SELECT 字段 INTO 局部变量名                FROM 表;            3. 使用            SELECT 局部变量名</code></pre><h4 id="用户变量与局部变量对比"><a href="#用户变量与局部变量对比" class="headerlink" title="用户变量与局部变量对比"></a>用户变量与局部变量对比</h4><ul><li>作用域<ul><li>用户变量针对当前会话</li><li>局部变量针对BEGIN END中</li></ul></li><li>定义和使用位置<ul><li>用户变量会话中的任何地方</li><li>局部变量只能在BEGIN END中,且为第一句话</li></ul></li><li>语法<ul><li>用户变量必须加@符号,不用限定类型</li><li>局部变量一般不用加@符号,需要限定类型</li><li>用户变量与局部变量的声明不同,赋值相似,使用相似</li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> MYSQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> VARIABLES </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL中的视图</title>
+      <link href="2021/04/24/MYSQl%E4%B8%AD%E7%9A%84%E8%A7%86%E5%9B%BE/"/>
+      <url>2021/04/24/MYSQl%E4%B8%AD%E7%9A%84%E8%A7%86%E5%9B%BE/</url>
+      
+        <content type="html"><![CDATA[<h4 id="视图-VIEW"><a href="#视图-VIEW" class="headerlink" title="视图:VIEW"></a>视图:VIEW</h4><ul><li>含义: 虚拟表,和普通表一样使用<ul><li>保存的查询语句,可以直接调用,需要查询的时候直接调用视图<ul><li>类似于java的方法</li></ul></li><li>mysql 5.1版本出现的新特性,是通过表动态生成的数据</li></ul></li><li>特点<ul><li>临时性:视图只有在被调用时虚拟表才会产生,没有保存数据,只保存了SQL逻辑,不保存查询结果</li></ul></li><li>应用场景<ul><li>多个地方用到同样的查询结果</li><li>该查询结果使用的SQL语句较复杂</li></ul></li><li>好处<ul><li>重用了sql语句</li><li>简化复杂的SQL操作,不必知道它的查询细节</li><li>保护数据、提高安全性,只提供了一个接口,没提供原表<h4 id="视图的创建与使用"><a href="#视图的创建与使用" class="headerlink" title="视图的创建与使用"></a>视图的创建与使用</h4></li></ul></li><li>案例<ol><li>查询姓名中中包含a字符的员工名、部门名和工种信息<ul><li>创建<pre><code>  CREATE VIEW       myv1  AS      SELECT       last_name,department_id,j.job_title  FROM      employees e  JOIN          jobs j  ON      e.job_id = j.job_id;</code></pre></li><li>使用<pre><code>  SELECT      *      FROM      myv1  WHERE      last_name LIKE &quot;%a%&quot;;</code></pre></li></ul></li><li>查询各部门的平均工资级别<ul><li>创建视图查看每个部门的平均工资<pre><code>  CREATE VIEW      deparment_avg_salary  AS  SELECT          department_id,AVG(salary) ag  FROM      employees  GROUP BY      department_id</code></pre></li><li>使用<pre><code>  SELECT      department_id,grade_level  FROM      department_avg_salary d  JOIN      job_grades j  ON      d.ag BETWEEN j.lowest_sal AND j.highest_sal;    </code></pre></li></ul></li><li>查询平均工资最低的部门信息<ul><li>创建视图:同2</li><li>使用视图:同4</li></ul></li><li>查询平均工资最低的部门名和工资<ul><li>创建视图:同2、3</li><li>使用视图<pre><code>  SELECT      *  FROM      department_avg_salary  WHERE      ag = (  SELECT      MIN(ag)  FROM      department_avg_salary);</code></pre><h4 id="视图的修改"><a href="#视图的修改" class="headerlink" title="视图的修改"></a>视图的修改</h4></li></ul></li></ol></li><li>方式一<ul><li>语法<pre><code>  CREATE OR REPLACE VIEW       视图名  AS          查询语句；</code></pre></li><li>作用<ul><li>创建或者改变视图<ul><li>视图不存在创建</li><li>视图存在改变</li></ul></li></ul></li></ul></li><li>方式二<ul><li>语法<pre><code>  ALTER VIEW      视图名  AS      查询语句</code></pre></li><li>作用<ul><li>改变视图,不能创建视图</li></ul></li></ul></li></ul><h4 id="视图的删除"><a href="#视图的删除" class="headerlink" title="视图的删除"></a>视图的删除</h4><ul><li><p>语法</p><pre><code>  DROP VIEW      视图名,视图名;</code></pre><h4 id="视图结构的查看"><a href="#视图结构的查看" class="headerlink" title="视图结构的查看"></a>视图结构的查看</h4></li><li><p>语法</p><ol><li>展示视图结构,和展示表结构类似<pre><code> DESC     视图名;</code></pre></li><li>展示详细信息(创建语句,视图名,字符集等等)<pre><code> SHOW CREATE VIEW     视图名;</code></pre><h4 id="视图的更新"><a href="#视图的更新" class="headerlink" title="视图的更新"></a>视图的更新</h4></li></ol></li><li><p>视图不允许更新的特点</p><ol><li><p>具有以下关键字的SQL语句:分组函数、distinct、group by、having、union、union all</p><ul><li>不是原表原数据的数组不允许更改</li></ul></li><li><p>常量视图</p></li><li><p>SELECT 中包含子查询</p></li><li><p>SELECT 中包含join,92,99语法都不行</p></li><li><p>FROM一个不能更新的视图</p></li><li><p>WHERE子句的子查询引用了FROM子句中的表    </p></li></ol></li><li><p>总结</p><ul><li>视图更新时必须只能参照原表的数据,不能更新由原表数据进行任何操作形成的视图。</li><li>视图的更新会对原表的数据进行更新,这就是为什么视图更新只能参照原表的数据。</li><li>对于创建视图时引用了不能跟新的视图时也不能更新,级联更新</li><li>视图的更新只能对单个表,单行数据更新</li><li>视图中不允许更新可能是不允许CRUD中的某一项也可能都不支持</li></ul></li></ul><h4 id="视图和表的对比"><a href="#视图和表的对比" class="headerlink" title="视图和表的对比"></a>视图和表的对比</h4><pre><code>* 创建语法    * CREATE VIEW    * CREATE TABLE* 是否占用物理空间    * 视图不占用数据存储空间,占用逻辑语句存储的空间,只保留了SQL逻辑    * 表占用数据空间* 使用    * VIEW可以使用增删改查,但一般不用,且使用起来有限制    * TABLE使用见DML</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> MYSQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> VIEW </tag>
+            
+            <tag> MYSQL </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>javaScript DOM树基础</title>
       <link href="2021/04/22/js-dom/"/>
       <url>2021/04/22/js-dom/</url>
