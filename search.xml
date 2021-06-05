@@ -201,6 +201,33 @@
     
     
     <entry>
+      <title>JDBC获取数据库连接</title>
+      <link href="2021/04/28/jdbc%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/"/>
+      <url>2021/04/28/jdbc%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/</url>
+      
+        <content type="html"><![CDATA[<h3 id="获取数据库连接"><a href="#获取数据库连接" class="headerlink" title="获取数据库连接"></a>获取数据库连接</h3><ol><li>Driver接口实现类:驱动<ul><li>mysql 8.0驱动 com.mysql.cj.jdbc.Driver</li><li>加载与注册JDBC驱动<ul><li>加载驱动:加载JDBC驱动需调用Class类的静态方法forName(),向其传递要加载的JDBC驱动的类名<ul><li>Class.forName(“com.mysql.cj.jdbc.Driver”) /* 反射 */</li></ul></li><li>注册驱动:DreiverManager类是驱动程序管理器类,负责管理驱动程序<ul><li>使用DriverManage.registerDriver(com.mysql.cj.jdbc.Driver)注册驱动</li><li>通常不显示调用DriverManager类的registerDriver方法来注册驱动程序类的实例?</li></ul></li></ul></li><li>数据库厂商根据jdk的Driver接口编写Driver的实现类</li></ul></li></ol><p>2 URL</p><ul><li><p>JDBC URL用于标识一个被注册的驱动程序,驱动程序管理器通过这个URL选择正确的驱动程序,从而建立到数据库的连接</p></li><li><p>JDBC URl的标准由三部分组成,各部分间用冒号分隔</p><ul><li>jdbc:子协议:子名称</li><li>协议:JDBC URL中的协议总是jdbc</li><li>子协议:子协议用于标识一个数据库驱动程序</li><li>子名称:一种标识数据库的方法。子名称额可以依不同的子协议而变化,用子名称的目的是为了定位数据库提供足够的信息。包括<strong>主机名</strong>(对应的服务端的ip地址),<strong>端口号</strong>,<strong>数据库名</strong><ul><li>举例</li><li>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT</li><li>在 mysql 8.0应该这样写,加上时区</li></ul></li></ul></li><li><p>几种常用的数据库的jdbc url</p><ul><li>mysql连接URL编写的方法<ul><li>jdbc:mysql://主机名称:mysql服务端口号/数据库名称?参数=值&amp;参数=值</li><li>jdbc:mysql://localhost:3306/test</li><li>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf8(如果jdbc程序与服务器段的字符集不一致,会导致乱码,那么可以通过参数指定服务器端的字符集)</li><li>jdbc:mysql://localhost:3306/test?user=root&amp;password=123456</li></ul></li><li>Oracle 9i的连接URL编写方式：<ul><li>jdbc:oracle:thin:@主机名称:oracle服务端口号:数据库名称</li><li>jdbc:oracle:thin:@localhost:1521:atguigu</li></ul></li><li>SQLServer的连接URL编写方式：<ul><li>jdbc:sqlserver://主机名称:sqlserver服务端口号:DatabaseName=数据库名称</li><li>jdbc:sqlserver://localhost:1433:DatabaseName=atguigu</li></ul></li></ul></li></ul><ol start="3"><li><p>用户名和密码</p><ul><li>user,password可以用”属性名=属性值”方式告诉数据库</li><li>可以调用DriverManager类的getConnection()方法建立到数据库的连接 <h3 id="获取数据库连接的方法"><a href="#获取数据库连接的方法" class="headerlink" title="获取数据库连接的方法"></a>获取数据库连接的方法</h3></li></ul></li><li><p>连接的方式1(出现了第三方API)</p><pre><code> //方式一    Driver driver = new com.mysql.cj.jdbc.Driver();    String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;;    //将用户名和秘密码封装在Properties中    Properties info = new Properties();    info.setProperty(&quot;user&quot;, &quot;root&quot;);    info.setProperty(&quot;password&quot;, &quot;123456&quot;);    Connection connection = driver.connect(url,info);    System.out.println(connection);</code></pre></li><li><p>连接的方式2(利用反射实现Dynamic动态性,使程序具有更好的可移植性)</p><pre><code>     //方式二     //1.根据反射获取Driver的mysql接口子类实现类     Class clazz = Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);     Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance();     //2.提供要连接的数据库     String url =&quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;;     //3.提供连接需要的用户名和密码     Properties info = new Properties();     info.setProperty(&quot;user&quot;, &quot;root&quot;);     info.setProperty(&quot;password&quot;, &quot;123456&quot;);     //4.获取连接     Connection connection = driver.connect(url,info);     System.out.println(connection);</code></pre></li><li><p>连接的方式3(利用DriverManager实现的管理Driver)</p><pre><code> //方式三 利用DriverManager类而不用Driver获取连接,需要注册驱动 //1.根据反射获取Driver的mysql接口子类实现类 Class clazz = Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;); Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance(); //2.提供另外三个连接的基本信息 String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;; String user = &quot;root&quot;; String password = &quot;123456&quot;; //注册驱动 DriverManager.registerDriver(driver); //获取连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection);</code></pre></li><li><p>连接方式4(优化获取Driver实现类的对象)</p><pre><code> //方式四 优化方式三 优化获取Driver实现类的对象 // ※可以省略创建Driver对象,注册driver的操作mysql的Driver实现类中在类加载时注册了driver实现类 //1.加载mysql的Driver Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;); //Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance(); //2.提供另外三个连接的基本信息 String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;; String user = &quot;root&quot;; String password = &quot;123456&quot;; //获取连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection); </code></pre></li><li><p>连接方式5(最终版,将数据库的驱动与程序解耦写入配置文件)</p><pre><code> //方式五 将数据与程序结构,写入配置文件 //得到properties文件 InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream(&quot;mysql.properties&quot;); Properties initial = new Properties(); initial.load(is); String driver = initial.getProperty(&quot;driver&quot;); String url = initial.getProperty(&quot;url&quot;); String user = initial.getProperty(&quot;user&quot;); String password = initial.getProperty(&quot;password&quot;); //加载驱动 Class.forName(driver); //获得连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection);</code></pre></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> jdbc_connection </tag>
+            
+            <tag> java_sql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>jdbc中的crud操作</title>
       <link href="2021/04/28/jdbc%E4%B8%AD%E7%9A%84Crud/"/>
       <url>2021/04/28/jdbc%E4%B8%AD%E7%9A%84Crud/</url>
@@ -222,33 +249,6 @@
             <tag> jdbc_preparedStatment </tag>
             
             <tag> java_reflect </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>JDBC获取数据库连接</title>
-      <link href="2021/04/28/jdbc%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/"/>
-      <url>2021/04/28/jdbc%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5/</url>
-      
-        <content type="html"><![CDATA[<h3 id="获取数据库连接"><a href="#获取数据库连接" class="headerlink" title="获取数据库连接"></a>获取数据库连接</h3><ol><li>Driver接口实现类:驱动<ul><li>mysql 8.0驱动 com.mysql.cj.jdbc.Driver</li><li>加载与注册JDBC驱动<ul><li>加载驱动:加载JDBC驱动需调用Class类的静态方法forName(),向其传递要加载的JDBC驱动的类名<ul><li>Class.forName(“com.mysql.cj.jdbc.Driver”) /* 反射 */</li></ul></li><li>注册驱动:DreiverManager类是驱动程序管理器类,负责管理驱动程序<ul><li>使用DriverManage.registerDriver(com.mysql.cj.jdbc.Driver)注册驱动</li><li>通常不显示调用DriverManager类的registerDriver方法来注册驱动程序类的实例?</li></ul></li></ul></li><li>数据库厂商根据jdk的Driver接口编写Driver的实现类</li></ul></li></ol><p>2 URL</p><ul><li><p>JDBC URL用于标识一个被注册的驱动程序,驱动程序管理器通过这个URL选择正确的驱动程序,从而建立到数据库的连接</p></li><li><p>JDBC URl的标准由三部分组成,各部分间用冒号分隔</p><ul><li>jdbc:子协议:子名称</li><li>协议:JDBC URL中的协议总是jdbc</li><li>子协议:子协议用于标识一个数据库驱动程序</li><li>子名称:一种标识数据库的方法。子名称额可以依不同的子协议而变化,用子名称的目的是为了定位数据库提供足够的信息。包括<strong>主机名</strong>(对应的服务端的ip地址),<strong>端口号</strong>,<strong>数据库名</strong><ul><li>举例</li><li>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT</li><li>在 mysql 8.0应该这样写,加上时区</li></ul></li></ul></li><li><p>几种常用的数据库的jdbc url</p><ul><li>mysql连接URL编写的方法<ul><li>jdbc:mysql://主机名称:mysql服务端口号/数据库名称?参数=值&amp;参数=值</li><li>jdbc:mysql://localhost:3306/test</li><li>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf8(如果jdbc程序与服务器段的字符集不一致,会导致乱码,那么可以通过参数指定服务器端的字符集)</li><li>jdbc:mysql://localhost:3306/test?user=root&amp;password=123456</li></ul></li><li>Oracle 9i的连接URL编写方式：<ul><li>jdbc:oracle:thin:@主机名称:oracle服务端口号:数据库名称</li><li>jdbc:oracle:thin:@localhost:1521:atguigu</li></ul></li><li>SQLServer的连接URL编写方式：<ul><li>jdbc:sqlserver://主机名称:sqlserver服务端口号:DatabaseName=数据库名称</li><li>jdbc:sqlserver://localhost:1433:DatabaseName=atguigu</li></ul></li></ul></li></ul><ol start="3"><li><p>用户名和密码</p><ul><li>user,password可以用”属性名=属性值”方式告诉数据库</li><li>可以调用DriverManager类的getConnection()方法建立到数据库的连接 <h3 id="获取数据库连接的方法"><a href="#获取数据库连接的方法" class="headerlink" title="获取数据库连接的方法"></a>获取数据库连接的方法</h3></li></ul></li><li><p>连接的方式1(出现了第三方API)</p><pre><code> //方式一    Driver driver = new com.mysql.cj.jdbc.Driver();    String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;;    //将用户名和秘密码封装在Properties中    Properties info = new Properties();    info.setProperty(&quot;user&quot;, &quot;root&quot;);    info.setProperty(&quot;password&quot;, &quot;123456&quot;);    Connection connection = driver.connect(url,info);    System.out.println(connection);</code></pre></li><li><p>连接的方式2(利用反射实现Dynamic动态性,使程序具有更好的可移植性)</p><pre><code>     //方式二     //1.根据反射获取Driver的mysql接口子类实现类     Class clazz = Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);     Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance();     //2.提供要连接的数据库     String url =&quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;;     //3.提供连接需要的用户名和密码     Properties info = new Properties();     info.setProperty(&quot;user&quot;, &quot;root&quot;);     info.setProperty(&quot;password&quot;, &quot;123456&quot;);     //4.获取连接     Connection connection = driver.connect(url,info);     System.out.println(connection);</code></pre></li><li><p>连接的方式3(利用DriverManager实现的管理Driver)</p><pre><code> //方式三 利用DriverManager类而不用Driver获取连接,需要注册驱动 //1.根据反射获取Driver的mysql接口子类实现类 Class clazz = Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;); Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance(); //2.提供另外三个连接的基本信息 String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;; String user = &quot;root&quot;; String password = &quot;123456&quot;; //注册驱动 DriverManager.registerDriver(driver); //获取连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection);</code></pre></li><li><p>连接方式4(优化获取Driver实现类的对象)</p><pre><code> //方式四 优化方式三 优化获取Driver实现类的对象 // ※可以省略创建Driver对象,注册driver的操作mysql的Driver实现类中在类加载时注册了driver实现类 //1.加载mysql的Driver Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;); //Driver driver = (Driver) clazz.getDeclaredConstructor().newInstance(); //2.提供另外三个连接的基本信息 String url = &quot;jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone = GMT&quot;; String user = &quot;root&quot;; String password = &quot;123456&quot;; //获取连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection); </code></pre></li><li><p>连接方式5(最终版,将数据库的驱动与程序解耦写入配置文件)</p><pre><code> //方式五 将数据与程序结构,写入配置文件 //得到properties文件 InputStream is = ConnectionTest.class.getClassLoader().getResourceAsStream(&quot;mysql.properties&quot;); Properties initial = new Properties(); initial.load(is); String driver = initial.getProperty(&quot;driver&quot;); String url = initial.getProperty(&quot;url&quot;); String user = initial.getProperty(&quot;user&quot;); String password = initial.getProperty(&quot;password&quot;); //加载驱动 Class.forName(driver); //获得连接 Connection connection = DriverManager.getConnection(url,user,password); System.out.println(connection);</code></pre></li></ol>]]></content>
-      
-      
-      <categories>
-          
-          <category> java </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> jdbc_connection </tag>
-            
-            <tag> java_sql </tag>
             
         </tags>
       
