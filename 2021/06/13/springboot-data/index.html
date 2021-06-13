@@ -1,0 +1,403 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>springboot-data | _raio</title><meta name="keywords" content="springboot,datasource"><meta name="author" content="twen"><meta name="copyright" content="twen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="springboot数据访问部分的学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot-data">
+<meta property="og:url" content="https://twen20010806.github.io/2021/06/13/springboot-data/index.html">
+<meta property="og:site_name" content="_raio">
+<meta property="og:description" content="springboot数据访问部分的学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://twen20010806.github.io/img/floor.jpg">
+<meta property="article:published_time" content="2021-06-13T12:12:00.000Z">
+<meta property="article:modified_time" content="2021-06-13T12:14:35.133Z">
+<meta property="article:author" content="twen">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="datasource">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://twen20010806.github.io/img/floor.jpg"><link rel="shortcut icon" href="/img/server.jpg"><link rel="canonical" href="https://twen20010806.github.io/2021/06/13/springboot-data/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-06-13 20:14:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/server.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E9%9F%B3%E4%B9%90"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/%E7%94%B5%E5%BD%B1"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/floor.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">_raio</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/%E9%9F%B3%E4%B9%90"><i class="fa-fw /music/"></i><span> 0</span></a></li><li><a class="site-page child" href="/%E7%94%B5%E5%BD%B1"><i class="fa-fw /movies/"></i><span> 1</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">springboot-data</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-13T12:12:00.000Z" title="发表于 2021-06-13 20:12:00">2021-06-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-06-13T12:14:35.133Z" title="更新于 2021-06-13 20:14:35">2021-06-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="springboot-data"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据访问"><a href="#数据访问" class="headerlink" title="数据访问"></a>数据访问</h1><h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><ol>
+<li>数据源的自动配置<ol>
+<li>导入JDBC场景</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613115231185.png" alt="image-20210613115231185"></p>
+<ol start="2">
+<li>数据库驱动为什么不导入?<ul>
+<li>官方不知道我们需要操作什么数据库</li>
+</ul>
+</li>
+<li>版本修改<ol>
+<li>依赖就近原则,直接再pom里修改</li>
+<li>属性就近原则,pom中properties中修改<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--改变版本--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>8.0.20<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<h3 id="自动配置的类"><a href="#自动配置的类" class="headerlink" title="自动配置的类"></a>自动配置的类</h3><ul>
+<li>DataSourceAutoConfiguration:数据源的自动配置<ul>
+<li>修改数据源相关的配置:spring.datasource</li>
+<li>数据库连接池的配置,容器中没有DataSource自动配置</li>
+<li>底层配置好的连接池是:HikariDataSource</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration(proxyBeanMethods = false)</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(&#123; DataSource.class, EmbeddedDatabaseType.class &#125;)</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(type = &quot;io.r2dbc.spi.ConnectionFactory&quot;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(DataSourceProperties.class)</span></span><br><span class="line"><span class="meta">@Import(&#123; DataSourcePoolMetadataProvidersConfiguration.class,</span></span><br><span class="line"><span class="meta">		DataSourceInitializationConfiguration.InitializationSpecificCredentialsDataSourceInitializationConfiguration.class,</span></span><br><span class="line"><span class="meta">		DataSourceInitializationConfiguration.SharedCredentialsDataSourceInitializationConfiguration.class &#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceAutoConfiguration</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>DataSourceTransactionManagerAutoConfiguration:事务管理的自动配置</li>
+<li>JdbcTemplateAutoConfiguration:JdbcTemplate的自动配置<ul>
+<li>可以修改这个配置项@ConfigurationProperteis(prefix=”spring.jdbc”)来修改jdbcTemplate</li>
+<li>@Bean@Primary JdbcTemplate:容器中有此组件</li>
+</ul>
+</li>
+<li>JndiDataSourceAutoConfiguration:Jndi的自动配置</li>
+<li>XADataSourceAutoConfiguration:分布式事务相关</li>
+</ul>
+<h3 id="修改配置项"><a href="#修改配置项" class="headerlink" title="修改配置项"></a>修改配置项</h3><ul>
+<li>url</li>
+<li>driver-class-name</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/ssmBuild?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone</span> <span class="string">=</span> <span class="string">GMT</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="comment">#type: com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="整合第三方技术"><a href="#整合第三方技术" class="headerlink" title="整合第三方技术"></a>整合第三方技术</h3><ul>
+<li><p>手动配置</p>
+<ul>
+<li>druid<ul>
+<li>获取DataSource连接</li>
+<li>获取DataSource连接之后便可以开始使用JdbcTemplate进行数据库操作</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@Bean</span></span><br><span class="line"><span class="comment">//此处配置是为了与配置文件相关联</span></span><br><span class="line">   <span class="meta">@ConfigurationProperties(prefix = &quot;spring.datasource&quot;)</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> DataSource <span class="title">dataSource</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">       DruidDataSource dataSource = <span class="keyword">new</span> DruidDataSource();</span><br><span class="line">       <span class="keyword">return</span> dataSource;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置监控项(Servlet,Filter):具体看druid官方</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 配置监控Servlet</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> ServletRegistrationBean&lt;StatViewServlet&gt; <span class="title">statViewServlet</span><span class="params">()</span></span>&#123;</span><br><span class="line">       StatViewServlet statViewServlet = <span class="keyword">new</span> StatViewServlet();</span><br><span class="line">       ServletRegistrationBean&lt;StatViewServlet&gt; registrationBean = <span class="keyword">new</span> ServletRegistrationBean&lt;&gt;(statViewServlet, <span class="string">&quot;/druid/*&quot;</span>);</span><br><span class="line">       registrationBean.addInitParameter(<span class="string">&quot;loginUsername&quot;</span>,<span class="string">&quot;twen&quot;</span>);</span><br><span class="line">       registrationBean.addInitParameter(<span class="string">&quot;loginPassword&quot;</span>,<span class="string">&quot;123456&quot;</span>);</span><br><span class="line">       <span class="keyword">return</span> registrationBean;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 配置web应用监视</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="meta">@Bean</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> FilterRegistrationBean&lt;WebStatFilter&gt; <span class="title">webStatFilter</span><span class="params">()</span></span>&#123;</span><br><span class="line">       WebStatFilter webStatFilter = <span class="keyword">new</span> WebStatFilter();</span><br><span class="line">       FilterRegistrationBean&lt;WebStatFilter&gt; filterRegistrationBean = <span class="keyword">new</span> FilterRegistrationBean&lt;&gt;(webStatFilter);</span><br><span class="line">       <span class="comment">// &quot;/*&quot;会匹配所有路径 &quot;/**&quot;会匹配目录下的所有资源</span></span><br><span class="line">       filterRegistrationBean.setUrlPatterns(Arrays.asList(<span class="string">&quot;/*&quot;</span>));</span><br><span class="line"><span class="comment">//不对具有以下后缀的路径进行监控</span></span><br><span class="line">       filterRegistrationBean.addInitParameter(<span class="string">&quot;exclusions&quot;</span>,<span class="string">&quot;*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*&quot;</span>);</span><br><span class="line">       <span class="keyword">return</span> filterRegistrationBean;</span><br><span class="line">	  </span><br><span class="line">	  </span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ServletRegistrationBean和FilterRegistrationBean都是通过反射获取属性名,所有会有addInitParameter方法传入属性名</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>使用druid场景启动器配置</p>
+<ol>
+<li>引入druid-starter</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>分析自动配置</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(&#123;DruidDataSource.class&#125;)</span></span><br><span class="line"><span class="meta">@AutoConfigureBefore(&#123;DataSourceAutoConfiguration.class&#125;)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(&#123;DruidStatProperties.class, DataSourceProperties.class&#125;)</span></span><br><span class="line"><span class="meta">@Import(&#123;DruidSpringAopConfiguration.class, DruidStatViewServletConfiguration.class, DruidWebStatFilterConfiguration.class, DruidFilterConfiguration.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DruidDataSourceAutoConfigure</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>DruidSpringAopConfiguration.class,监控SpringBean的,配置项:spring-datasource-druid.aop-patterns</li>
+<li>DruidStatViewServletConfiguration.class:监控页的配置,可以手动关闭</li>
+</ul>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613153527287.png" alt="image-20210613153527287"></p>
+<ul>
+<li>DruidWebStatFilterConfiguration.class:web监控配置也可手动关闭</li>
+</ul>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613153542631.png" alt="image-20210613153542631"></p>
+<ul>
+<li>DruidFilterConfiguration.class:所有Druid自己的filter的配置</li>
+</ul>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613153702566.png" alt="image-20210613153702566"></p>
+</li>
+</ul>
+<h3 id="整合mybatis"><a href="#整合mybatis" class="headerlink" title="整合mybatis"></a>整合mybatis</h3><h4 id="引入mybatis的场景启动器"><a href="#引入mybatis的场景启动器" class="headerlink" title="引入mybatis的场景启动器"></a>引入mybatis的场景启动器</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置模式"><a href="#配置模式" class="headerlink" title="配置模式"></a>配置模式</h4><h5 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h5><ul>
+<li>全局配置文件</li>
+<li>SqlSessionfactory:自动配置好了</li>
+<li>SqlSession:自动配置了<strong>SqlSessiontemplate</strong>组合了SqlSession<ul>
+<li>Mybatis场景启动器会自动为每一个mapper接口添加一个autowired了SqlSession的实现类</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Set&lt;String&gt; factoryPropertyNames = (Set)Stream.of((<span class="keyword">new</span> BeanWrapperImpl(SqlSessionFactoryBean.class)).getPropertyDescriptors()).map(FeatureDescriptor::getName).collect(Collectors.toSet());</span><br><span class="line">Class&lt;? extends LanguageDriver&gt; defaultLanguageDriver = <span class="keyword">this</span>.properties.getDefaultScriptingLanguageDriver();</span><br><span class="line"><span class="keyword">if</span> (factoryPropertyNames.contains(<span class="string">&quot;scriptingLanguageDrivers&quot;</span>) &amp;&amp; !ObjectUtils.isEmpty(<span class="keyword">this</span>.languageDrivers)) &#123;</span><br><span class="line">    factory.setScriptingLanguageDrivers(<span class="keyword">this</span>.languageDrivers);</span><br><span class="line">    <span class="keyword">if</span> (defaultLanguageDriver == <span class="keyword">null</span> &amp;&amp; <span class="keyword">this</span>.languageDrivers.length == <span class="number">1</span>) &#123;</span><br><span class="line">        defaultLanguageDriver = <span class="keyword">this</span>.languageDrivers[<span class="number">0</span>].getClass();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>@Import(AutoConfiguredMapperScannerRegistrar.class)</li>
+<li>Mapper:只要我们写的操作Mybatis的接口标注了Mapper注解</li>
+</ul>
+<h5 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h5><ol>
+<li><p>导入Mybatis场景启动器</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>编写mapper接口与mapper映射器</p>
+</li>
+</ol>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613173123924.png" alt="image-20210613173123924"></p>
+<ol start="3">
+<li><p>编写配置文件:</p>
+<ul>
+<li>xml映射器的位置</li>
+<li>pojo类别名</li>
+<li>配置文件:configuration</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mybatis/mapper/*.xml</span> <span class="comment">#配置映射</span></span><br><span class="line">  <span class="attr">type-aliases-package:</span> <span class="string">com.twen.springbootsysdemo1.bean</span> </span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="注解模式"><a href="#注解模式" class="headerlink" title="注解模式"></a>注解模式</h4><ul>
+<li><p>小技巧,mapper.xml中可以使用哦个userGeneratedKeys来实现自增主键的返回,主键回填</p>
+</li>
+<li><p>引入mybatis-start</p>
+</li>
+<li><p>指定mapper-location即可</p>
+</li>
+<li><p>编写Mapper接口并标注@Mapper注解(使用于xml)</p>
+</li>
+<li><p>简单方法直接注解方式</p>
+</li>
+<li><p>复杂方法编写mapper.xml进行映射</p>
+</li>
+<li><p>@MapperScan(“packageName”),扫描Mapper接口</p>
+</li>
+</ul>
+<h3 id="Mybatis-plus"><a href="#Mybatis-plus" class="headerlink" title="Mybatis-plus"></a>Mybatis-plus</h3><h4 id="什么是MyBatis-Plus"><a href="#什么是MyBatis-Plus" class="headerlink" title="什么是MyBatis-Plus?"></a>什么是MyBatis-Plus?</h4><h4 id="整合Mybatis-Plus"><a href="#整合Mybatis-Plus" class="headerlink" title="整合Mybatis-Plus:"></a>整合Mybatis-Plus:</h4><ul>
+<li>已经导入jdbc,mybatis</li>
+</ul>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613180312905.png" alt="image-20210613180312905"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>自动配置</p>
+<ul>
+<li>配置类绑定MybatisPlusProperties:底层是容器中的数据源</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass(&#123;SqlSessionFactory.class, SqlSessionFactoryBean.class&#125;)</span></span><br><span class="line"><span class="meta">@ConditionalOnSingleCandidate(DataSource.class)</span></span><br><span class="line"><span class="meta">@EnableConfigurationProperties(&#123;MybatisPlusProperties.class&#125;)</span></span><br><span class="line"><span class="meta">@AutoConfigureAfter(&#123;DataSourceAutoConfiguration.class, MybatisPlusLanguageDriverAutoConfiguration.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisPlusAutoConfiguration</span> <span class="keyword">implements</span> <span class="title">InitializingBean</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613180451762.png" alt="image-20210613180451762"></p>
+<ul>
+<li>SqlSessionFactory自动配置好</li>
+<li>mapperLocations自动配置好:classpath:/mapper/**/*:任意包下的类路径下的所有mapper下的所有xml都是sql映射文件，建议以后都放在mapper下</li>
+</ul>
+<p><img src="E:\资源\springboot-雷丰阳\springboot后源码\image-20210613180800250.png" alt="image-20210613180800250"></p>
+<ul>
+<li>容器中也自动配置了SqlSessionTemplate</li>
+<li>@Mapper标注的接口也会被自动扫描:建议直接@MapperScan(“path”)批量扫描就行</li>
+</ul>
+</li>
+<li><p>优点:</p>
+<ul>
+<li>只需要Mapper接口继承BaseMapper<T>就可以拥有CRUD能力</li>
+<li>简单查询不用写xml文件</li>
+<li>Maybatis-plus会自动根据pojo名字找到名字相同的表</li>
+<li>如果需要更换表名则在Mapper上通过@TableName注解更换</li>
+</ul>
+</li>
+<li><p>基本查询</p>
+<ul>
+<li><p>tymleaf中的语法,</p>
+<ul>
+<li><p>sequence取出序列</p>
+</li>
+<li><p>{中使用()添加参数}</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dataTables_paginate paging_bootstrap pagination&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--previous--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">th:class</span>=<span class="string">&quot;$&#123;page.current == 1?&#x27;prev disabled&#x27;:&#x27;prev&#x27;&#125;&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>← Previous<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--current--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">th:class</span>=<span class="string">&quot;$&#123;number == page.current?&#x27;active&#x27;:&#x27;&#x27;&#125;&quot;</span> <span class="attr">th:each</span>=<span class="string">&quot;number:$&#123;#numbers.sequence(1,page.pages)&#125;&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">&quot;@&#123;/dynamic_table.html(pn=$&#123;number&#125;)&#125;&quot;</span>&gt;</span>[[$&#123;number&#125;]]<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--next--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">th:class</span>=<span class="string">&quot;$&#123;page.current == page.pages?&#x27;next disabled&#x27;:&#x27;next&#x27;&#125;&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>Next → <span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">       </span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>每一列的写法Restful和普通的参数传递可以同时传递:th:href=”@{/user/delete/{id}(id=${user.id},pn=${page.current})</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;gradeX&quot;</span> th:each=<span class="string">&quot;user,stat:$&#123;page.records&#125;&quot;</span>&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;stat.count&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;user.id&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;user.name&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td th:text=&quot;$&#123;user.age&#125;&quot;&gt;&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;[[$&#123;user.email&#125;]]&lt;/td&gt;</span><br><span class="line">    &lt;!--&lt;td&gt;Trident&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;Internet</span><br><span class="line">        Explorer 4.0&lt;/td&gt;</span><br><span class="line">    &lt;td&gt;Win 95+&lt;/td&gt;</span><br><span class="line">    &lt;td class=&quot;center hidden-phone&quot;&gt;4&lt;/td&gt;--&gt;</span><br><span class="line">    &lt;td&gt;</span><br><span class="line">        &lt;a th:href=&quot;@&#123;/user/delete/&#123;id&#125;(id=$&#123;user.id&#125;,pn=$&#123;page.current&#125;)&#125;&quot; class=&quot;btn btn-danger btn-sm&quot; type=&quot;button&quot; &gt;delete&lt;/a&gt;</span><br><span class="line">    &lt;/td&gt;</span><br><span class="line">&lt;/tr&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>controller中的写法<ul>
+<li>运用redirectAttributes可以在重定向传递参数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/user/delete/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">deleteUser</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id,</span></span></span><br><span class="line"><span class="function"><span class="params">                             <span class="meta">@RequestParam(value = &quot;pn&quot;,defaultValue = &quot;1&quot;)</span> Integer pn,</span></span></span><br><span class="line"><span class="function"><span class="params">                             RedirectAttributes ra)</span></span>&#123;</span><br><span class="line">        userService.removeById(id);</span><br><span class="line">        System.out.println(<span class="string">&quot;pn&quot;</span>);</span><br><span class="line">        ra.addAttribute(<span class="string">&quot;pn&quot;</span>,pn);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;redirect:/dynamic_table.html&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/dynamic_table.html&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">dynamic_table</span><span class="params">(<span class="meta">@RequestParam(value = &quot;pn&quot;,defaultValue = &quot;1&quot;)</span> Integer pn, Model model)</span></span>&#123;</span><br><span class="line">        List&lt;User&gt; list = userService.list();</span><br><span class="line"></span><br><span class="line">        Page&lt;User&gt; userPage = <span class="keyword">new</span> Page&lt;User&gt;(pn,<span class="number">2</span>);</span><br><span class="line">        Page&lt;User&gt; page = userPage;</span><br><span class="line">        userService.page(page);</span><br><span class="line">        model.addAttribute(<span class="string">&quot;page&quot;</span>,page);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;tables/dynamic_table&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>获取分页插件</p>
+<ul>
+<li>在config文件中配置MybatisPlusInterceptor</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MybatisConfig</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 最新版</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MybatisPlusInterceptor <span class="title">mybatisPlusInterceptor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        MybatisPlusInterceptor interceptor = <span class="keyword">new</span> MybatisPlusInterceptor();</span><br><span class="line">        <span class="comment">//这是分页拦截器</span></span><br><span class="line">        PaginationInnerInterceptor paginationInnerInterceptor = <span class="keyword">new</span> PaginationInnerInterceptor();</span><br><span class="line">        paginationInnerInterceptor.setMaxLimit(<span class="number">500L</span>);</span><br><span class="line">        interceptor.addInnerInterceptor(paginationInnerInterceptor);</span><br><span class="line">        <span class="keyword">return</span> interceptor;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>也可以使用PageHelper</li>
+</ul>
+</li>
+</ul>
+<h3 id="SQL总结"><a href="#SQL总结" class="headerlink" title="SQL总结:"></a>SQL总结:</h3><ol>
+<li><p>导入数据源场景启动器(默认hikari)</p>
+</li>
+<li><p>导入mybatis或myabtis场景启动器</p>
+</li>
+<li><p>编写配置文件</p>
+</li>
+<li><p>编写mapper接口与映射器</p>
+</li>
+<li><p>实现</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">twen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://twen20010806.github.io/2021/06/13/springboot-data/">https://twen20010806.github.io/2021/06/13/springboot-data/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://twen20010806.github.io" target="_blank">_raio</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/springboot/">springboot</a><a class="post-meta__tags" href="/tags/datasource/">datasource</a></div><div class="post_share"><div class="social-share" data-image="/img/floor.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2021/06/12/springboot-web/"><img class="prev-cover" src="/img/floor.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">spring-web</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/06/04/springboot-start/" title="springboot起步"><img class="cover" src="/img/floor.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-04</div><div class="title">springboot起步</div></div></a></div><div><a href="/2021/06/12/springboot-web/" title="spring-web"><img class="cover" src="/img/floor.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-12</div><div class="title">spring-web</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE"><span class="toc-number">1.</span> <span class="toc-text">数据访问</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL"><span class="toc-number">1.1.</span> <span class="toc-text">SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E7%9A%84%E7%B1%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">自动配置的类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="toc-number">1.1.2.</span> <span class="toc-text">修改配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%90%88%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8A%80%E6%9C%AF"><span class="toc-number">1.1.3.</span> <span class="toc-text">整合第三方技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%90%88mybatis"><span class="toc-number">1.1.4.</span> <span class="toc-text">整合mybatis</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E5%85%A5mybatis%E7%9A%84%E5%9C%BA%E6%99%AF%E5%90%AF%E5%8A%A8%E5%99%A8"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">引入mybatis的场景启动器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">配置模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90"><span class="toc-number">1.1.4.2.1.</span> <span class="toc-text">解析</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.4.2.2.</span> <span class="toc-text">流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E8%A7%A3%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">注解模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mybatis-plus"><span class="toc-number">1.1.5.</span> <span class="toc-text">Mybatis-plus</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFMyBatis-Plus"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">什么是MyBatis-Plus?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E5%90%88Mybatis-Plus"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">整合Mybatis-Plus:</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.6.</span> <span class="toc-text">SQL总结:</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By twen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: '',
+      appKey: '',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+      requiredFields: ["nick,mail"],
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="\js\sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
